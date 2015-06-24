@@ -1,0 +1,87 @@
+---
+
+metric:
+  - name: "image.size"
+    event_type:
+      - "image.upload"
+      - "image.delete"
+      - "image.update"
+    type: "gauge"
+    unit: B
+    counter_name: "image.size"
+    volume: payload.size
+    resource_id: payload.id
+    project_id: payload.owner
+
+  - name: "image.download"
+    event_type: "image.send"
+    type: "delta"
+    unit: "B"
+    counter_name: "image.download"
+    volume: payload.bytes_sent
+    resource_id: payload.image_id
+    user_id: payload.receiver_user_id
+    project_id: payload.receiver_tenant_id
+
+  - name: "image.serve"
+    event_type: "image.send"
+    type: "delta"
+    unit: "B"
+    counter_name: "image.serve"
+    volume: payload.bytes_sent
+    resource_id: payload.image_id
+    project_id: payload.owner_id
+
+  - name: 'bandwidth'
+    event_type: 'l3.meter'
+    type: 'delta'
+    unit: 'B'
+    volume: payload.bytes
+    project_id: payload.tenant_id
+    resource_id: payload.label_id
+
+  - name: 'magnetodb.table.index.count'
+    type: 'gauge'
+    unit: 'index'
+    event_type: 'magnetodb.table.create.end'
+    volume: payload.index_count
+    resource_id: payload.table_uuid
+    user_id:
+
+  - name: 'memory'
+    event_type: 'compute.instance.*'
+    type: 'gauge'
+    unit: 'MB'
+    volume: payload.memory_mb
+    user_id: payload.user_id
+    project_id: payload.tenant_id
+    resource_id: payload.instance_id
+
+  - name: 'vcpus'
+    event_type: 'compute.instance.*'
+    type: 'gauge'
+    unit: 'vcpu'
+    volume: payload.vcpus
+    user_id: payload.user_id
+    project_id: payload.tenant_id
+    resource_id: payload.instance_id
+
+  - name: 'disk.root.size'
+    event_type: 'compute.instance.*'
+    type: 'gauge'
+    unit: 'GB'
+    volume: payload.root_gb
+    user_id: payload.user_id
+    project_id: payload.tenant_id
+    resource_id: payload.instance_id
+
+  - name: 'disk.ephemeral.size'
+    event_type: 'compute.instance.*'
+    type: 'gauge'
+    unit: 'GB'
+    volume: payload.ephemeral_gb
+    user_id: payload.user_id
+    project_id: payload.tenant_id
+    resource_id: payload.instance_id
+
+#non-metric:
